@@ -1,6 +1,7 @@
 # Discord Gamblit Shop Bot - README
 
 ## 📋 Overview
+<img width="509" height="384" alt="Screenshot 2026-06-07 184629" src="https://github.com/user-attachments/assets/f93ce28e-c761-48b5-8d6d-c6f02bd448be" />
 
 A Discord bot that integrates with Gamblit to create a fully functional in-server shop system. Users can purchase items, check balances, manage loyalty points, and more - all through Discord slash commands.
 
@@ -81,6 +82,8 @@ You will need to provide:
 python bot.py
 ```
 
+<img width="674" height="388" alt="Screenshot 2026-06-07 184941" src="https://github.com/user-attachments/assets/302baab0-182f-48ea-b2a1-369ab19c65cb" />
+
 ## 📝 All Commands
 
 ### Admin Commands
@@ -94,7 +97,7 @@ python bot.py
 | `/setbalance` | Set a user's balance to an exact amount |
 | `/stockre` | Force refresh Gamblit stock check |
 | `/tiplogs` | View recent Gamblit tip log |
-
+<img width="664" height="382" alt="Screenshot 2026-06-07 184931" src="https://github.com/user-attachments/assets/f3b39460-3d5b-4778-9947-817819378f44" />
 ### User Commands
 | Command | Description |
 |---------|-------------|
@@ -112,7 +115,7 @@ python bot.py
 | `/price` | Update buy or sell price for an item |
 | `/stock` | Check stock levels for all items |
 | `/title` | Set the shop embed title |
-
+<img width="679" height="398" alt="Screenshot 2026-06-07 184950" src="https://github.com/user-attachments/assets/1dd49793-6f72-4b66-b07c-cc132268ff65" />
 ## 🛒 Setting Up Your Store
 
 ### Step 1: Configure Shop Appearance
@@ -122,7 +125,7 @@ python bot.py
 /banner [image URL or GIF]
 /color [hex color code]
 ```
-
+<img width="667" height="223" alt="Screenshot 2026-06-07 184957" src="https://github.com/user-attachments/assets/50320ef5-6f2e-4c96-818c-7b0087ff5694" />
 ### Step 2: Add Items
 ```bash
 /additem 
