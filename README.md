@@ -11,7 +11,7 @@ A Discord bot that integrates with Gamblit to create a fully functional in-serve
 
 - Python 3.8 or higher
 - A Discord Application with Bot
-- Gamblit account with API access
+- Gamblit account with token access
 - PayPal account (for payment processing)
 
 ### 2. Discord Developer Portal Configuration
@@ -72,7 +72,7 @@ python setup.py
 
 You will need to provide:
 - Bot Token (from Discord Developer Portal)
-- Gamblit API credentials
+- Gamblit token 
 - PayPal API credentials (if using PayPal)
 - Your Discord Server ID
 
@@ -183,7 +183,7 @@ The bot uses a local database to store:
 - Check that at least one item exists in the shop
 
 ### Payment issues:
-- Verify Gamblit/PayPal API credentials using `/check`
+- Verify Gamblit/PayPal credentials
 - Check API logs for specific error messages
 
 ### Stock not updating:
@@ -195,7 +195,7 @@ The bot uses a local database to store:
 ```
 ├── setup.py        # Initial configuration wizard
 ├── cfg.py          # Configuration handler
-├── gamblit.py      # Gamblit API integration
+├── gamblit.py      # Gamblit integration
 ├── bot.py          # Main bot file
 ├── database.py     # Database operations
 └── paypal.py       # PayPal integration
